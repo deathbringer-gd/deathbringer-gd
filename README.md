@@ -43,24 +43,6 @@ Building software from the browser to the bootloader.
 
 ---
 
-## `> github`
-
-<p align="center">
-<img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=deathbringer-gd&theme=github_dark" width="100%">
-</p>
-
-<p align="center">
-<img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=deathbringer-gd&theme=github_dark" width="49%">
-<img src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=deathbringer-gd&theme=github_dark&utcOffset=0" width="49%">
-</p>
-
-<p align="center">
-<img src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=deathbringer-gd&theme=github_dark" width="49%">
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=deathbringer-gd&theme=github-compact&hide_border=true" width="49%">
-</p>
-
----
-
 ## `> private / full-stack`
 
 <!-- PRIVATE_PROJECT_STATS_START -->
