@@ -39,16 +39,10 @@ Building software from the **browser to the bootloader**.
 | **Security Methodology** | Recon, JavaScript recon, JWT testing and XSS           |
 | **Full-Stack Platform**  | React · Spring Boot · PostgreSQL                       |
 
-## Full stack website statistics
+## Full-Stack Website
 
 <!-- PRIVATE_PROJECT_STATS_START -->
-
-*Statistics are automatically generated from the private repository.*
-
-`Commits` → **updated automatically**
-
-`Languages` → **updated automatically**
-
+> Loading project statistics...
 <!-- PRIVATE_PROJECT_STATS_END -->
 
 ## Stack
