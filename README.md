@@ -43,9 +43,9 @@ Building software from the **browser to the bootloader**.
 
 <!-- PRIVATE_PROJECT_STATS_START -->
 
-`Commits` → **423**
+**424 commits**
 
-`Languages`
+**Language composition**
 
 `JavaScript  ` `█████████████░░░░░░░` **64.89%**
 `Java        ` `██████░░░░░░░░░░░░░░` **32.48%**
