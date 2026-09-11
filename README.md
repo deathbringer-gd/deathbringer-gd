@@ -67,10 +67,8 @@ Building software from the browser to the bootloader.
 > Updating project statistics...
 <!-- PRIVATE_PROJECT_STATS_END -->
 
-<sub>Aggregate statistics only · private source and history remain private.</sub>
 
 ---
 
 <p align="center">
-<sub>from the browser to the bootloader</sub>
 </p>
