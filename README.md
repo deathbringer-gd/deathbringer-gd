@@ -42,7 +42,18 @@ Building software from the **browser to the bootloader**.
 ## Full-Stack Website
 
 <!-- PRIVATE_PROJECT_STATS_START -->
-> Loading project statistics...
+
+`Commits` → **423**
+
+`Languages`
+
+`JavaScript  ` `█████████████░░░░░░░` **64.89%**
+`Java        ` `██████░░░░░░░░░░░░░░` **32.48%**
+`HTML        ` `░░░░░░░░░░░░░░░░░░░░` **1.35%**
+`CSS         ` `░░░░░░░░░░░░░░░░░░░░` **1.29%**
+
+<sub>Aggregate statistics only · private source and history remain private.</sub>
+
 <!-- PRIVATE_PROJECT_STATS_END -->
 
 ## Stack
