@@ -14,7 +14,7 @@
 
 **Systems** — C, Assembly, Linux
 
-**Security** — Recon, Bug-bounty, Web hacking
+**Security** — Bug-bounty, Web hacking, 3 valid bugs found
 
 **Automation** — Python, Security tooling
 
