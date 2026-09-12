@@ -11,8 +11,11 @@
 ## `> whoami`
 
 **Full-Stack** — React · Java · Spring Boot · PostgreSQL
+
 **Systems** — C · Assembly · Linux
+
 **Security** — Recon · JavaScript · JWT · XSS
+
 **Automation** — Python · Enumeration · Security tooling
 
 ---
