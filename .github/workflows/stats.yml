@@ -19,12 +19,14 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Create profile directory
         run: mkdir -p profile
 
-      # GitHub statistics
+      # -----------------------------------------
+      # GitHub stats
+      # -----------------------------------------
       - name: Generate GitHub stats
         uses: stats-organization/github-readme-stats-action@v2
         with:
@@ -32,9 +34,11 @@ jobs:
           options: username=${{ github.repository_owner }}&show_icons=true&include_all_commits=true&count_private=true&hide_rank=true&hide_border=true&bg_color=0D1117&title_color=FFFFFF&text_color=C9D1D9&icon_color=58A6FF
           path: profile/stats.svg
           token: ${{ secrets.GH_STATS_TOKEN }}
-          fail_on_error: true
+          fail_on_error: false
 
+      # -----------------------------------------
       # Top languages
+      # -----------------------------------------
       - name: Generate top languages
         uses: stats-organization/github-readme-stats-action@v2
         with:
@@ -42,9 +46,11 @@ jobs:
           options: username=${{ github.repository_owner }}&layout=compact&langs_count=8&hide_border=true&bg_color=0D1117&title_color=FFFFFF&text_color=C9D1D9
           path: profile/top-langs.svg
           token: ${{ secrets.GH_STATS_TOKEN }}
-          fail_on_error: true
+          fail_on_error: false
 
-      # Agoge Coaching repository card
+      # -----------------------------------------
+      # Agoge Coaching
+      # -----------------------------------------
       - name: Generate Agoge Coaching card
         uses: stats-organization/github-readme-stats-action@v2
         with:
@@ -52,9 +58,11 @@ jobs:
           options: username=${{ github.repository_owner }}&repo=Agoge-Coaching&hide_border=true&bg_color=0D1117&title_color=FFFFFF&text_color=C9D1D9&icon_color=58A6FF
           path: profile/fullstack.svg
           token: ${{ secrets.GH_STATS_TOKEN }}
-          fail_on_error: true
+          fail_on_error: false
 
-      # Commit generated SVG files
+      # -----------------------------------------
+      # Commit generated cards
+      # -----------------------------------------
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
