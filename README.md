@@ -10,13 +10,13 @@
 
 ## `> whoami`
 
-**Full-Stack** — React · Java · Spring Boot · PostgreSQL
+**Full-Stack** — React, Java, Spring Boot, PostgreSQL
 
-**Systems** — C · Assembly · Linux
+**Systems** — C, Assembly, Linux
 
-**Security** — Recon · JavaScript · JWT · XSS
+**Security** — Recon, Bug-bounty, Web hacking
 
-**Automation** — Python · Enumeration · Security tooling
+**Automation** — Python, Security tooling
 
 ---
 
