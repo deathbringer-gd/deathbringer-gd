@@ -12,9 +12,9 @@
 
 ## `> whoami`
 
-**Full-Stack** — React · Java · Spring Boot · PostgreSQL  
-**Systems** — C · Assembly · Linux  
-**Security** — Recon · JavaScript · JWT · XSS  
+**Full-Stack** — React · Java · Spring Boot · PostgreSQL
+**Systems** — C · Assembly · Linux
+**Security** — Recon · JavaScript · JWT · XSS
 **Automation** — Python · Enumeration · Security tooling
 
 ---
@@ -22,9 +22,7 @@
 ## `> projects`
 
 <p align="center">
-  <a href="https://github.com/deathbringer-gd/Agoge-Coaching">
-    <img src="./profile/fullstack.svg" width="450">
-  </a>
+  <img src="./profile/fullstack.svg" width="450">
 </p>
 
 ---
@@ -59,14 +57,6 @@
 <p align="center">
   <img src="./profile/stats.svg" height="170">
   <img src="./profile/top-langs.svg" height="170">
-</p>
-
----
-
-## `> activity`
-
-<p align="center">
-  <img src="./profile/activity.svg" width="850">
 </p>
 
 ---
