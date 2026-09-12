@@ -1,0 +1,61 @@
+name: Update GitHub Profile Stats
+
+on:
+schedule:
+- cron: "0 3 * * *"
+workflow_dispatch:
+
+permissions:
+contents: write
+
+jobs:
+stats:
+runs-on: ubuntu-latest
+
+```
+steps:
+  - name: Checkout profile repository
+    uses: actions/checkout@v4
+
+  - name: Create profile directory
+    run: mkdir -p profile
+
+  - name: Generate GitHub stats
+    uses: stats-organization/github-readme-stats-action@v2
+    with:
+      card: stats
+      options: "username=deathbringer-gd&show_icons=true&include_all_commits=true&count_private=true&hide_border=true&bg_color=0D1117&title_color=FFFFFF&text_color=C9D1D9&icon_color=58A6FF&border_color=30363D&ring_color=58A6FF&line_height=25"
+      path: profile/stats.svg
+      token: ${{ secrets.GH_STATS_TOKEN }}
+
+  - name: Generate top languages
+    uses: stats-organization/github-readme-stats-action@v2
+    with:
+      card: top-langs
+      options: "username=deathbringer-gd&layout=compact&langs_count=8&hide_border=true&bg_color=0D1117&title_color=FFFFFF&text_color=C9D1D9&border_color=30363D&card_width=450"
+      path: profile/top-langs.svg
+      token: ${{ secrets.GH_STATS_TOKEN }}
+
+  - name: Generate full-stack project card
+    uses: stats-organization/github-readme-stats-action@v2
+    with:
+      card: pin
+      options: "username=deathbringer-gd&repo=Agoge-Coaching&hide_border=true&bg_color=0D1117&title_color=FFFFFF&text_color=C9D1D9&icon_color=58A6FF&border_color=30363D"
+      path: profile/fullstack.svg
+      token: ${{ secrets.GH_STATS_TOKEN }}
+
+  - name: Commit generated cards
+    run: |
+      git config user.name "github-actions[bot]"
+      git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      git add profile/*.svg
+
+      if git diff --cached --quiet; then
+        echo "No changes to commit"
+        exit 0
+      fi
+
+      git commit -m "chore: update profile statistics"
+      git push
+```
