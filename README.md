@@ -4,8 +4,6 @@
 
 ### Full-Stack · Systems · Security
 
-**Building software from the browser to the bootloader.**
-
 </div>
 
 ---
