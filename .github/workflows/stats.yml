@@ -3,11 +3,9 @@ name: Update GitHub Profile Stats
 on:
   workflow_dispatch:
 
-  # Update automatically once per day
   schedule:
     - cron: "0 3 * * *"
 
-  # Also update whenever this workflow is changed
   push:
     branches:
       - main
@@ -20,99 +18,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout profile repository
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v5
 
       - name: Create profile directory
         run: mkdir -p profile
 
-      # -----------------------------------------
       # GitHub statistics
-      # -----------------------------------------
       - name: Generate GitHub stats
         uses: stats-organization/github-readme-stats-action@v2
         with:
           card: stats
-          options: >-
-            username=${{ github.repository_owner }}&
-            show_icons=true&
-            include_all_commits=true&
-            count_private=true&
-            hide_rank=true&
-            hide_border=true&
-            bg_color=0D1117&
-            title_color=FFFFFF&
-            text_color=C9D1D9&
-            icon_color=58A6FF
+          options: username=${{ github.repository_owner }}&show_icons=true&include_all_commits=true&count_private=true&hide_rank=true&hide_border=true&bg_color=0D1117&title_color=FFFFFF&text_color=C9D1D9&icon_color=58A6FF
           path: profile/stats.svg
           token: ${{ secrets.GH_STATS_TOKEN }}
           fail_on_error: true
 
-      # -----------------------------------------
       # Top languages
-      # -----------------------------------------
       - name: Generate top languages
         uses: stats-organization/github-readme-stats-action@v2
         with:
           card: top-langs
-          options: >-
-            username=${{ github.repository_owner }}&
-            layout=compact&
-            langs_count=8&
-            hide_border=true&
-            bg_color=0D1117&
-            title_color=FFFFFF&
-            text_color=C9D1D9
+          options: username=${{ github.repository_owner }}&layout=compact&langs_count=8&hide_border=true&bg_color=0D1117&title_color=FFFFFF&text_color=C9D1D9
           path: profile/top-langs.svg
           token: ${{ secrets.GH_STATS_TOKEN }}
           fail_on_error: true
 
-      # -----------------------------------------
-      # Agoge Coaching project card
-      # -----------------------------------------
-      - name: Check Agoge Coaching repository
-        id: check-agoge
-        env:
-          GH_TOKEN: ${{ secrets.GH_STATS_TOKEN }}
-        run: |
-          if gh repo view "${{ github.repository_owner }}/Agoge-Coaching" > /dev/null 2>&1; then
-            echo "exists=true" >> "$GITHUB_OUTPUT"
-            echo "Agoge-Coaching repository found."
-          else
-            echo "exists=false" >> "$GITHUB_OUTPUT"
-            echo "Agoge-Coaching repository was not found or is not accessible."
-          fi
-
+      # Agoge Coaching repository card
       - name: Generate Agoge Coaching card
-        if: steps.check-agoge.outputs.exists == 'true'
         uses: stats-organization/github-readme-stats-action@v2
         with:
           card: pin
-          options: >-
-            username=${{ github.repository_owner }}&
-            repo=Agoge-Coaching&
-            hide_border=true&
-            bg_color=0D1117&
-            title_color=FFFFFF&
-            text_color=C9D1D9&
-            icon_color=58A6FF
+          options: username=${{ github.repository_owner }}&repo=Agoge-Coaching&hide_border=true&bg_color=0D1117&title_color=FFFFFF&text_color=C9D1D9&icon_color=58A6FF
           path: profile/fullstack.svg
           token: ${{ secrets.GH_STATS_TOKEN }}
           fail_on_error: true
 
-      # -----------------------------------------
-      # Remove old broken card if repository
-      # isn't accessible anymore
-      # -----------------------------------------
-      - name: Remove invalid Agoge card
-        if: steps.check-agoge.outputs.exists != 'true'
-        run: |
-          rm -f profile/fullstack.svg
-
-      # -----------------------------------------
-      # Commit generated SVGs
-      # -----------------------------------------
-      - name: Commit updated statistics
+      # Commit generated SVG files
+      - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -124,5 +67,5 @@ jobs:
             exit 0
           fi
 
-          git commit -m "chore: update GitHub profile statistics"
+          git commit -m "chore: update profile statistics"
           git push
