@@ -1,228 +1,86 @@
-<svg width="520"
-    height="300"
-    viewBox="0 0 520 300"
-    xmlns="http://www.w3.org/2000/svg">
-
-  <defs>
-    <linearGradient id="bg"
-                    x1="0"
-                    y1="0"
-                    x2="1"
-                    y2="1">
-      <stop offset="0%" stop-color="#0D1117"/>
-      <stop offset="100%" stop-color="#161B22"/>
-    </linearGradient>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="500"
+     height="250"
+     viewBox="0 0 500 250">
 
   <!-- Background -->
-  <rect width="520"
-        height="300"
-        rx="10"
-        fill="url(#bg)"
-        stroke="#30363D"/>
+  <rect
+    width="500"
+    height="250"
+    rx="12"
+    fill="#0D1117"
+    stroke="#30363D"
+    stroke-width="1"/>
 
   <!-- Title -->
-  <text x="28"
-        y="38"
-        fill="#FFFFFF"
-        font-family="Arial, Helvetica, sans-serif"
-        font-size="21"
-        font-weight="700">
-    Agoge-Coaching
+  <text
+    x="25"
+    y="42"
+    fill="#FFFFFF"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="24"
+    font-weight="700">
+    Agoge Coaching
   </text>
 
-  <!-- Private badge -->
-  <rect x="382"
-        y="19"
-        width="108"
-        height="24"
-        rx="12"
-        fill="#21262D"/>
-
-  <text x="436"
-        y="35"
-        fill="#8B949E"
-        font-family="Arial, Helvetica, sans-serif"
-        font-size="11"
-        text-anchor="middle">
-    PRIVATE PROJECT
+  <!-- Subtitle -->
+  <text
+    x="25"
+    y="68"
+    fill="#8B949E"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="14">
+    Software project
   </text>
 
-  <!-- Description -->
-  <text x="28"
-        y="68"
-        fill="#8B949E"
-        font-family="Arial, Helvetica, sans-serif"
-        font-size="13">
-    Full-stack coaching platform
+  <!-- Main LOC number -->
+  <text
+    x="25"
+    y="122"
+    fill="#58A6FF"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="42"
+    font-weight="700">
+    62633
   </text>
 
-  <!-- Tech stack label -->
-  <text x="28"
-        y="101"
-        fill="#58A6FF"
-        font-family="Arial, Helvetica, sans-serif"
-        font-size="12"
-        font-weight="700">
-    FULL-STACK
-  </text>
-
-  <!-- Tech stack -->
-  <text x="28"
-        y="125"
-        fill="#C9D1D9"
-        font-family="Arial, Helvetica, sans-serif"
-        font-size="13">
-    React · Spring Boot · PostgreSQL
+  <!-- LOC label -->
+  <text
+    x="25"
+    y="149"
+    fill="#C9D1D9"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="17">
+    lines of code
   </text>
 
   <!-- Divider -->
-  <line x1="28"
-        y1="145"
-        x2="492"
-        y2="145"
-        stroke="#30363D"/>
+  <line
+    x1="25"
+    y1="169"
+    x2="475"
+    y2="169"
+    stroke="#30363D"
+    stroke-width="1"/>
 
-  <!-- Languages heading -->
-  <text x="28"
-        y="163"
-        fill="#FFFFFF"
-        font-family="Arial, Helvetica, sans-serif"
-        font-size="13"
-        font-weight="700">
-    Languages
+  <!-- Technology -->
+  <text
+    x="25"
+    y="197"
+    fill="#C9D1D9"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="14">
+    Spring Boot • React • PostgreSQL
   </text>
 
-  <!-- Language rows -->
-  
-    <text x="48" y="183"
-          fill="#C9D1D9"
-          font-family="Arial, Helvetica, sans-serif"
-          font-size="13">
-      JavaScript
-    </text>
-
-    <rect x="125"
-          y="172"
-          width="295"
-          height="8"
-          rx="4"
-          fill="#21262D"/>
-
-    <rect x="125"
-          y="172"
-          width="187.3"
-          height="8"
-          rx="4"
-          fill="#58A6FF"/>
-
-    <text x="485"
-          y="183"
-          fill="#8B949E"
-          font-family="Arial, Helvetica, sans-serif"
-          font-size="12"
-          text-anchor="end">
-      63.5%
-    </text>
-    
-    <text x="48" y="203"
-          fill="#C9D1D9"
-          font-family="Arial, Helvetica, sans-serif"
-          font-size="13">
-      Java
-    </text>
-
-    <rect x="125"
-          y="192"
-          width="295"
-          height="8"
-          rx="4"
-          fill="#21262D"/>
-
-    <rect x="125"
-          y="192"
-          width="100.1"
-          height="8"
-          rx="4"
-          fill="#58A6FF"/>
-
-    <text x="485"
-          y="203"
-          fill="#8B949E"
-          font-family="Arial, Helvetica, sans-serif"
-          font-size="12"
-          text-anchor="end">
-      33.9%
-    </text>
-    
-    <text x="48" y="223"
-          fill="#C9D1D9"
-          font-family="Arial, Helvetica, sans-serif"
-          font-size="13">
-      HTML
-    </text>
-
-    <rect x="125"
-          y="212"
-          width="295"
-          height="8"
-          rx="4"
-          fill="#21262D"/>
-
-    <rect x="125"
-          y="212"
-          width="3.9"
-          height="8"
-          rx="4"
-          fill="#58A6FF"/>
-
-    <text x="485"
-          y="223"
-          fill="#8B949E"
-          font-family="Arial, Helvetica, sans-serif"
-          font-size="12"
-          text-anchor="end">
-      1.3%
-    </text>
-    
-    <text x="48" y="243"
-          fill="#C9D1D9"
-          font-family="Arial, Helvetica, sans-serif"
-          font-size="13">
-      CSS
-    </text>
-
-    <rect x="125"
-          y="232"
-          width="295"
-          height="8"
-          rx="4"
-          fill="#21262D"/>
-
-    <rect x="125"
-          y="232"
-          width="3.7"
-          height="8"
-          rx="4"
-          fill="#58A6FF"/>
-
-    <text x="485"
-          y="243"
-          fill="#8B949E"
-          font-family="Arial, Helvetica, sans-serif"
-          font-size="12"
-          text-anchor="end">
-      1.3%
-    </text>
-    
-
-  <!-- Footer -->
-  <text x="28"
-        y="292"
-        fill="#484F58"
-        font-family="Arial, Helvetica, sans-serif"
-        font-size="10">
-    deathbringer-gd / Agoge-Coaching
+  <!-- Repository information -->
+  <text
+    x="25"
+    y="222"
+    fill="#8B949E"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="12">
+    ⭐ 2   🍴 0
   </text>
 
 </svg>
