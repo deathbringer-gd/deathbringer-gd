@@ -3,11 +3,9 @@ name: Update GitHub Profile Stats
 on:
   workflow_dispatch:
 
-  # Update once every day
   schedule:
     - cron: "0 3 * * *"
 
-  # Update whenever main changes
   push:
     branches:
       - main
@@ -20,221 +18,255 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ============================================================
-      # CHECKOUT PROFILE REPOSITORY
-      # ============================================================
-      - name: Checkout profile repository
-        uses: actions/checkout@v7
+      - name: Checkout
+        uses: actions/checkout@v6
 
       - name: Create profile directory
         run: mkdir -p profile
 
-      # ============================================================
-      # GITHUB STATS CARD
-      # ============================================================
+      # -----------------------------------------
+      # GitHub stats
+      # -----------------------------------------
       - name: Generate GitHub stats
         uses: stats-organization/github-readme-stats-action@v2
         with:
           card: stats
-          options: username=deathbringer-gd&show_icons=true&include_all_commits=true&count_private=true&hide_rank=true&hide_border=true&bg_color=0D1117&title_color=FFFFFF&text_color=C9D1D9&icon_color=58A6FF
+          options: username=${{ github.repository_owner }}&show_icons=true&include_all_commits=true&count_private=true&hide_rank=true&hide_border=true&bg_color=0D1117&title_color=FFFFFF&text_color=C9D1D9&icon_color=58A6FF
           path: profile/stats.svg
           token: ${{ secrets.GH_STATS_TOKEN }}
-          fail_on_error: true
+          fail_on_error: false
 
-      # ============================================================
-      # TOP LANGUAGES CARD
-      # ============================================================
+      # -----------------------------------------
+      # Top languages
+      # -----------------------------------------
       - name: Generate top languages
         uses: stats-organization/github-readme-stats-action@v2
         with:
           card: top-langs
-          options: username=deathbringer-gd&layout=compact&langs_count=8&hide_border=true&bg_color=0D1117&title_color=FFFFFF&text_color=C9D1D9
+          options: username=${{ github.repository_owner }}&layout=compact&langs_count=8&hide_border=true&bg_color=0D1117&title_color=FFFFFF&text_color=C9D1D9
           path: profile/top-langs.svg
           token: ${{ secrets.GH_STATS_TOKEN }}
-          fail_on_error: true
+          fail_on_error: false
 
-      # ============================================================
-      # CLONE PRIVATE AGOGE REPOSITORY
-      # ============================================================
-      - name: Clone Agoge Coaching
-        env:
-          GH_TOKEN: ${{ secrets.GH_STATS_TOKEN }}
-        run: |
-          rm -rf /tmp/Agoge-Coaching
-
-          gh repo clone deathbringer-gd/Agoge-Coaching \
-            /tmp/Agoge-Coaching \
-            -- \
-            --depth 1
-
-          echo "Agoge repository successfully cloned."
-
-      # ============================================================
-      # CALCULATE AGOGE LINES OF CODE
-      # ============================================================
-      - name: Calculate Agoge lines of code
-        run: |
-          cd /tmp/Agoge-Coaching
-
-          # Count non-empty lines in tracked source files.
-          #
-          # Included:
-          # Java, JavaScript, JSX, TypeScript, TSX,
-          # Python, SQL, HTML, CSS, SCSS, XML,
-          # YAML and JSON.
-          #
-          # Git-tracked files are used so node_modules,
-          # target, dist, build and other untracked generated
-          # files cannot inflate the number.
-
-          LOC=$(
-            git ls-files -z |
-            while IFS= read -r -d '' file; do
-              case "$file" in
-                *.java|*.js|*.jsx|*.ts|*.tsx|*.py|*.sql|*.html|*.css|*.scss|*.xml|*.yml|*.yaml|*.json)
-                  printf '%s\0' "$file"
-                  ;;
-              esac
-            done |
-            xargs -0 awk 'NF { count++ } END { print count+0 }'
-          )
-
-          echo "Agoge lines of code: $LOC"
-          echo "AGOGE_LOC=$LOC" >> "$GITHUB_ENV"
-
-      # ============================================================
-      # GET BASIC AGOGE REPOSITORY INFORMATION
-      # ============================================================
-      - name: Get Agoge repository information
-        env:
-          GH_TOKEN: ${{ secrets.GH_STATS_TOKEN }}
-        run: |
-          gh api repos/deathbringer-gd/Agoge-Coaching \
-            --jq '"AGOGE_STARS=\(.stargazers_count)\nAGOGE_FORKS=\(.forks_count)\nAGOGE_WATCHERS=\(.subscribers_count)"' \
-            >> "$GITHUB_ENV"
-
-      # ============================================================
-      # GENERATE CUSTOM AGOGE SVG
-      # ============================================================
+      # -----------------------------------------
+      # Agoge Coaching
+      # -----------------------------------------
       - name: Generate Agoge Coaching card
+        env:
+          GH_STATS_TOKEN: ${{ secrets.GH_STATS_TOKEN }}
         run: |
+          set -e
+
           mkdir -p profile
 
-          cat > profile/fullstack.svg <<EOF
-          <svg xmlns="http://www.w3.org/2000/svg"
-               width="500"
-               height="250"
-               viewBox="0 0 500 250">
+          curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_STATS_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            "https://api.github.com/repos/deathbringer-gd/Agoge-Coaching" \
+            -o /tmp/repo.json
+
+          curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_STATS_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            "https://api.github.com/repos/deathbringer-gd/Agoge-Coaching/languages" \
+            -o /tmp/languages.json
+
+          python3 <<'PY'
+          import json
+          import html
+
+          with open("/tmp/repo.json") as f:
+              repo = json.load(f)
+
+          with open("/tmp/languages.json") as f:
+              languages = json.load(f)
+
+          def esc(value):
+              return html.escape(str(value), quote=True)
+
+          name = esc(repo.get("name", "Agoge Coaching"))
+
+          description = repo.get("description") or "Full-stack coaching platform"
+          description = esc(description)
+
+          # Sort languages by amount of code
+          total = sum(languages.values()) or 1
+
+          sorted_languages = sorted(
+              languages.items(),
+              key=lambda x: x[1],
+              reverse=True
+          )[:5]
+
+          # Generate language rows
+          language_rows = ""
+
+          # First language starts below the "Languages" heading
+          y = 183
+
+          for language, amount in sorted_languages:
+              percentage = amount / total * 100
+              language = esc(language)
+
+              # Bar starts at x=125 and ends at x=420.
+              # Percentage is placed at x=485, giving it plenty of room.
+              bar_width = 295
+              filled_width = bar_width * percentage / 100
+
+              language_rows += f"""
+              <text x="48" y="{y}"
+                    fill="#C9D1D9"
+                    font-family="Arial, Helvetica, sans-serif"
+                    font-size="13">
+                {language}
+              </text>
+
+              <rect x="125"
+                    y="{y - 11}"
+                    width="{bar_width}"
+                    height="8"
+                    rx="4"
+                    fill="#21262D"/>
+
+              <rect x="125"
+                    y="{y - 11}"
+                    width="{filled_width:.1f}"
+                    height="8"
+                    rx="4"
+                    fill="#58A6FF"/>
+
+              <text x="485"
+                    y="{y}"
+                    fill="#8B949E"
+                    font-family="Arial, Helvetica, sans-serif"
+                    font-size="12"
+                    text-anchor="end">
+                {percentage:.1f}%
+              </text>
+              """
+
+              y += 20
+
+          svg = f'''<svg width="520"
+              height="300"
+              viewBox="0 0 520 300"
+              xmlns="http://www.w3.org/2000/svg">
+
+            <defs>
+              <linearGradient id="bg"
+                              x1="0"
+                              y1="0"
+                              x2="1"
+                              y2="1">
+                <stop offset="0%" stop-color="#0D1117"/>
+                <stop offset="100%" stop-color="#161B22"/>
+              </linearGradient>
+            </defs>
 
             <!-- Background -->
-            <rect
-              width="500"
-              height="250"
-              rx="12"
-              fill="#0D1117"
-              stroke="#30363D"
-              stroke-width="1"/>
+            <rect width="520"
+                  height="300"
+                  rx="10"
+                  fill="url(#bg)"
+                  stroke="#30363D"/>
 
             <!-- Title -->
-            <text
-              x="25"
-              y="42"
-              fill="#FFFFFF"
-              font-family="Arial, Helvetica, sans-serif"
-              font-size="24"
-              font-weight="700">
-              Agoge Coaching
+            <text x="28"
+                  y="38"
+                  fill="#FFFFFF"
+                  font-family="Arial, Helvetica, sans-serif"
+                  font-size="21"
+                  font-weight="700">
+              {name}
             </text>
 
-            <!-- Subtitle -->
-            <text
-              x="25"
-              y="68"
-              fill="#8B949E"
-              font-family="Arial, Helvetica, sans-serif"
-              font-size="14">
-              Software project
+            <!-- Private badge -->
+            <rect x="382"
+                  y="19"
+                  width="108"
+                  height="24"
+                  rx="12"
+                  fill="#21262D"/>
+
+            <text x="436"
+                  y="35"
+                  fill="#8B949E"
+                  font-family="Arial, Helvetica, sans-serif"
+                  font-size="11"
+                  text-anchor="middle">
+              PRIVATE PROJECT
             </text>
 
-            <!-- Main LOC number -->
-            <text
-              x="25"
-              y="122"
-              fill="#58A6FF"
-              font-family="Arial, Helvetica, sans-serif"
-              font-size="42"
-              font-weight="700">
-              ${AGOGE_LOC}
+            <!-- Description -->
+            <text x="28"
+                  y="68"
+                  fill="#8B949E"
+                  font-family="Arial, Helvetica, sans-serif"
+                  font-size="13">
+              {description}
             </text>
 
-            <!-- LOC label -->
-            <text
-              x="25"
-              y="149"
-              fill="#C9D1D9"
-              font-family="Arial, Helvetica, sans-serif"
-              font-size="17">
-              lines of code
+            <!-- Tech stack label -->
+            <text x="28"
+                  y="101"
+                  fill="#58A6FF"
+                  font-family="Arial, Helvetica, sans-serif"
+                  font-size="12"
+                  font-weight="700">
+              FULL-STACK
+            </text>
+
+            <!-- Tech stack -->
+            <text x="28"
+                  y="125"
+                  fill="#C9D1D9"
+                  font-family="Arial, Helvetica, sans-serif"
+                  font-size="13">
+              React · Spring Boot · PostgreSQL
             </text>
 
             <!-- Divider -->
-            <line
-              x1="25"
-              y1="169"
-              x2="475"
-              y2="169"
-              stroke="#30363D"
-              stroke-width="1"/>
+            <line x1="28"
+                  y1="145"
+                  x2="492"
+                  y2="145"
+                  stroke="#30363D"/>
 
-            <!-- Technology -->
-            <text
-              x="25"
-              y="197"
-              fill="#C9D1D9"
-              font-family="Arial, Helvetica, sans-serif"
-              font-size="14">
-              Spring Boot • React • PostgreSQL
+            <!-- Languages heading -->
+            <text x="28"
+                  y="163"
+                  fill="#FFFFFF"
+                  font-family="Arial, Helvetica, sans-serif"
+                  font-size="13"
+                  font-weight="700">
+              Languages
             </text>
 
-            <!-- Repository information -->
-            <text
-              x="25"
-              y="222"
-              fill="#8B949E"
-              font-family="Arial, Helvetica, sans-serif"
-              font-size="12">
-              ⭐ ${AGOGE_STARS}   🍴 ${AGOGE_FORKS}
+            <!-- Language rows -->
+            {language_rows}
+
+            <!-- Footer -->
+            <text x="28"
+                  y="292"
+                  fill="#484F58"
+                  font-family="Arial, Helvetica, sans-serif"
+                  font-size="10">
+              deathbringer-gd / Agoge-Coaching
             </text>
 
-          </svg>
-          EOF
+          </svg>'''
 
-          echo "Generated profile/fullstack.svg"
-          echo "Displayed LOC: ${AGOGE_LOC}"
+          with open("profile/fullstack.svg", "w", encoding="utf-8") as f:
+              f.write(svg)
 
-      # ============================================================
-      # SHOW GENERATED FILES
-      # ============================================================
-      - name: Verify generated cards
-        run: |
-          echo "Generated files:"
-          ls -lh profile/
-
-          echo
-          echo "Agoge LOC:"
-          echo "${AGOGE_LOC}"
-
-          echo
-          echo "SVG files:"
-          for file in profile/*.svg; do
-            echo "---- $file ----"
-            head -n 3 "$file"
-          done
-
-      # ============================================================
-      # COMMIT CHANGES
-      # ============================================================
-      - name: Commit updated statistics
+          print("Generated profile/fullstack.svg")
+          PY
+      # -----------------------------------------
+      # Commit generated cards
+      # -----------------------------------------
+      - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -246,5 +278,5 @@ jobs:
             exit 0
           fi
 
-          git commit -m "chore: update GitHub profile statistics"
+          git commit -m "chore: update profile statistics"
           git push
