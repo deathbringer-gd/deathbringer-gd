@@ -55,7 +55,7 @@ jobs:
         uses: stats-organization/github-readme-stats-action@v2
         with:
           card: pin
-          options: username=${{ github.repository_owner }}&repo=Agoge-Coaching&hide_border=true&bg_color=0D1117&title_color=FFFFFF&text_color=C9D1D9&icon_color=58A6FF
+          options: username=deathbringer-gd&repo=Agoge-Coaching&hide_border=true&bg_color=0D1117&title_color=FFFFFF&text_color=C9D1D9&icon_color=58A6FF
           path: profile/fullstack.svg
           token: ${{ secrets.GH_STATS_TOKEN }}
           fail_on_error: false
