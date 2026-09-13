@@ -76,7 +76,6 @@ jobs:
           python3 <<'PY'
           import json
           import html
-          import os
 
           with open("/tmp/repo.json") as f:
               repo = json.load(f)
@@ -88,11 +87,13 @@ jobs:
               return html.escape(str(value), quote=True)
 
           name = esc(repo.get("name", "Agoge Coaching"))
+
           description = repo.get("description") or "Full-stack coaching platform"
           description = esc(description)
 
-          # Sort languages by bytes and calculate percentages
+          # Sort languages by amount of code
           total = sum(languages.values()) or 1
+
           sorted_languages = sorted(
               languages.items(),
               key=lambda x: x[1],
@@ -102,48 +103,78 @@ jobs:
           # Generate language rows
           language_rows = ""
 
-          y = 178
+          # First language starts below the "Languages" heading
+          y = 183
 
           for language, amount in sorted_languages:
               percentage = amount / total * 100
               language = esc(language)
 
+              # Bar starts at x=125 and ends at x=420.
+              # Percentage is placed at x=485, giving it plenty of room.
+              bar_width = 295
+              filled_width = bar_width * percentage / 100
+
               language_rows += f"""
-              <text x="48" y="{y}" fill="#C9D1D9"
+              <text x="48" y="{y}"
+                    fill="#C9D1D9"
                     font-family="Arial, Helvetica, sans-serif"
-                    font-size="13">{language}</text>
+                    font-size="13">
+                {language}
+              </text>
 
-              <rect x="125" y="{y - 11}" width="270" height="8"
-                    rx="4" fill="#21262D"/>
+              <rect x="125"
+                    y="{y - 11}"
+                    width="{bar_width}"
+                    height="8"
+                    rx="4"
+                    fill="#21262D"/>
 
-              <rect x="125" y="{y - 11}"
-                    width="{270 * percentage / 100:.1f}"
-                    height="8" rx="4" fill="#58A6FF"/>
+              <rect x="125"
+                    y="{y - 11}"
+                    width="{filled_width:.1f}"
+                    height="8"
+                    rx="4"
+                    fill="#58A6FF"/>
 
-              <text x="410" y="{y}" fill="#8B949E"
+              <text x="485"
+                    y="{y}"
+                    fill="#8B949E"
                     font-family="Arial, Helvetica, sans-serif"
-                    font-size="12" text-anchor="end">
+                    font-size="12"
+                    text-anchor="end">
                 {percentage:.1f}%
               </text>
               """
 
-              y += 29
+              y += 20
 
-          svg = f'''<svg width="520" height="285" viewBox="0 0 520 285"
+          svg = f'''<svg width="520"
+              height="300"
+              viewBox="0 0 520 300"
               xmlns="http://www.w3.org/2000/svg">
 
             <defs>
-              <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+              <linearGradient id="bg"
+                              x1="0"
+                              y1="0"
+                              x2="1"
+                              y2="1">
                 <stop offset="0%" stop-color="#0D1117"/>
                 <stop offset="100%" stop-color="#161B22"/>
               </linearGradient>
             </defs>
 
-            <rect width="520" height="285" rx="10"
-                  fill="url(#bg)" stroke="#30363D"/>
+            <!-- Background -->
+            <rect width="520"
+                  height="300"
+                  rx="10"
+                  fill="url(#bg)"
+                  stroke="#30363D"/>
 
             <!-- Title -->
-            <text x="28" y="38"
+            <text x="28"
+                  y="38"
                   fill="#FFFFFF"
                   font-family="Arial, Helvetica, sans-serif"
                   font-size="21"
@@ -152,10 +183,15 @@ jobs:
             </text>
 
             <!-- Private badge -->
-            <rect x="382" y="19" width="108" height="24"
-                  rx="12" fill="#21262D"/>
+            <rect x="382"
+                  y="19"
+                  width="108"
+                  height="24"
+                  rx="12"
+                  fill="#21262D"/>
 
-            <text x="436" y="35"
+            <text x="436"
+                  y="35"
                   fill="#8B949E"
                   font-family="Arial, Helvetica, sans-serif"
                   font-size="11"
@@ -164,15 +200,17 @@ jobs:
             </text>
 
             <!-- Description -->
-            <text x="28" y="68"
+            <text x="28"
+                  y="68"
                   fill="#8B949E"
                   font-family="Arial, Helvetica, sans-serif"
                   font-size="13">
               {description}
             </text>
 
-            <!-- Tech stack -->
-            <text x="28" y="101"
+            <!-- Tech stack label -->
+            <text x="28"
+                  y="101"
                   fill="#58A6FF"
                   font-family="Arial, Helvetica, sans-serif"
                   font-size="12"
@@ -180,7 +218,9 @@ jobs:
               FULL-STACK
             </text>
 
-            <text x="28" y="125"
+            <!-- Tech stack -->
+            <text x="28"
+                  y="125"
                   fill="#C9D1D9"
                   font-family="Arial, Helvetica, sans-serif"
                   font-size="13">
@@ -188,11 +228,15 @@ jobs:
             </text>
 
             <!-- Divider -->
-            <line x1="28" y1="145" x2="492" y2="145"
+            <line x1="28"
+                  y1="145"
+                  x2="492"
+                  y2="145"
                   stroke="#30363D"/>
 
-            <!-- Languages -->
-            <text x="28" y="168"
+            <!-- Languages heading -->
+            <text x="28"
+                  y="163"
                   fill="#FFFFFF"
                   font-family="Arial, Helvetica, sans-serif"
                   font-size="13"
@@ -200,10 +244,12 @@ jobs:
               Languages
             </text>
 
+            <!-- Language rows -->
             {language_rows}
 
             <!-- Footer -->
-            <text x="28" y="270"
+            <text x="28"
+                  y="292"
                   fill="#484F58"
                   font-family="Arial, Helvetica, sans-serif"
                   font-size="10">
@@ -217,7 +263,6 @@ jobs:
 
           print("Generated profile/fullstack.svg")
           PY
-
       # -----------------------------------------
       # Commit generated cards
       # -----------------------------------------
