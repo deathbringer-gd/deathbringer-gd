@@ -52,13 +52,171 @@ jobs:
       # Agoge Coaching
       # -----------------------------------------
       - name: Generate Agoge Coaching card
-        uses: stats-organization/github-readme-stats-action@v2
-        with:
-          card: pin
-          options: username=deathbringer-gd&repo=Agoge-Coaching&hide_border=true&bg_color=0D1117&title_color=FFFFFF&text_color=C9D1D9&icon_color=58A6FF
-          path: profile/fullstack.svg
-          token: ${{ secrets.GH_STATS_TOKEN }}
-          fail_on_error: false
+        env:
+          GH_STATS_TOKEN: ${{ secrets.GH_STATS_TOKEN }}
+        run: |
+          set -e
+
+          mkdir -p profile
+
+          curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_STATS_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            "https://api.github.com/repos/deathbringer-gd/Agoge-Coaching" \
+            -o /tmp/repo.json
+
+          curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_STATS_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            "https://api.github.com/repos/deathbringer-gd/Agoge-Coaching/languages" \
+            -o /tmp/languages.json
+
+          python3 <<'PY'
+          import json
+          import html
+          import os
+
+          with open("/tmp/repo.json") as f:
+              repo = json.load(f)
+
+          with open("/tmp/languages.json") as f:
+              languages = json.load(f)
+
+          def esc(value):
+              return html.escape(str(value), quote=True)
+
+          name = esc(repo.get("name", "Agoge Coaching"))
+          description = repo.get("description") or "Full-stack coaching platform"
+          description = esc(description)
+
+          # Sort languages by bytes and calculate percentages
+          total = sum(languages.values()) or 1
+          sorted_languages = sorted(
+              languages.items(),
+              key=lambda x: x[1],
+              reverse=True
+          )[:5]
+
+          # Generate language rows
+          language_rows = ""
+
+          y = 178
+
+          for language, amount in sorted_languages:
+              percentage = amount / total * 100
+              language = esc(language)
+
+              language_rows += f"""
+              <text x="48" y="{y}" fill="#C9D1D9"
+                    font-family="Arial, Helvetica, sans-serif"
+                    font-size="13">{language}</text>
+
+              <rect x="125" y="{y - 11}" width="270" height="8"
+                    rx="4" fill="#21262D"/>
+
+              <rect x="125" y="{y - 11}"
+                    width="{270 * percentage / 100:.1f}"
+                    height="8" rx="4" fill="#58A6FF"/>
+
+              <text x="410" y="{y}" fill="#8B949E"
+                    font-family="Arial, Helvetica, sans-serif"
+                    font-size="12" text-anchor="end">
+                {percentage:.1f}%
+              </text>
+              """
+
+              y += 29
+
+          svg = f'''<svg width="520" height="285" viewBox="0 0 520 285"
+              xmlns="http://www.w3.org/2000/svg">
+
+            <defs>
+              <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#0D1117"/>
+                <stop offset="100%" stop-color="#161B22"/>
+              </linearGradient>
+            </defs>
+
+            <rect width="520" height="285" rx="10"
+                  fill="url(#bg)" stroke="#30363D"/>
+
+            <!-- Title -->
+            <text x="28" y="38"
+                  fill="#FFFFFF"
+                  font-family="Arial, Helvetica, sans-serif"
+                  font-size="21"
+                  font-weight="700">
+              {name}
+            </text>
+
+            <!-- Private badge -->
+            <rect x="382" y="19" width="108" height="24"
+                  rx="12" fill="#21262D"/>
+
+            <text x="436" y="35"
+                  fill="#8B949E"
+                  font-family="Arial, Helvetica, sans-serif"
+                  font-size="11"
+                  text-anchor="middle">
+              PRIVATE PROJECT
+            </text>
+
+            <!-- Description -->
+            <text x="28" y="68"
+                  fill="#8B949E"
+                  font-family="Arial, Helvetica, sans-serif"
+                  font-size="13">
+              {description}
+            </text>
+
+            <!-- Tech stack -->
+            <text x="28" y="101"
+                  fill="#58A6FF"
+                  font-family="Arial, Helvetica, sans-serif"
+                  font-size="12"
+                  font-weight="700">
+              FULL-STACK
+            </text>
+
+            <text x="28" y="125"
+                  fill="#C9D1D9"
+                  font-family="Arial, Helvetica, sans-serif"
+                  font-size="13">
+              React · Spring Boot · PostgreSQL
+            </text>
+
+            <!-- Divider -->
+            <line x1="28" y1="145" x2="492" y2="145"
+                  stroke="#30363D"/>
+
+            <!-- Languages -->
+            <text x="28" y="168"
+                  fill="#FFFFFF"
+                  font-family="Arial, Helvetica, sans-serif"
+                  font-size="13"
+                  font-weight="700">
+              Languages
+            </text>
+
+            {language_rows}
+
+            <!-- Footer -->
+            <text x="28" y="270"
+                  fill="#484F58"
+                  font-family="Arial, Helvetica, sans-serif"
+                  font-size="10">
+              deathbringer-gd / Agoge-Coaching
+            </text>
+
+          </svg>'''
+
+          with open("profile/fullstack.svg", "w", encoding="utf-8") as f:
+              f.write(svg)
+
+          print("Generated profile/fullstack.svg")
+          PY
 
       # -----------------------------------------
       # Commit generated cards
