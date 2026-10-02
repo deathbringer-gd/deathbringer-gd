@@ -26,6 +26,7 @@
   <img src="./profile/fullstack.svg" width="450">
 </p>
 
+Demo live @ https://agogecoaching.co.uk now
 ---
 
 ## `> stack`
