@@ -111,7 +111,7 @@
 
     <rect x="125"
           y="172"
-          width="216.3"
+          width="216.4"
           height="8"
           rx="4"
           fill="#58A6FF"/>
@@ -122,7 +122,7 @@
           font-family="Arial, Helvetica, sans-serif"
           font-size="12"
           text-anchor="end">
-      73.3%
+      73.4%
     </text>
     
     <text x="48" y="203"
@@ -141,7 +141,7 @@
 
     <rect x="125"
           y="192"
-          width="74.6"
+          width="74.5"
           height="8"
           rx="4"
           fill="#58A6FF"/>
