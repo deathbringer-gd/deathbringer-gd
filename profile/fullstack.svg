@@ -111,7 +111,7 @@
 
     <rect x="125"
           y="172"
-          width="215.8"
+          width="212.8"
           height="8"
           rx="4"
           fill="#58A6FF"/>
@@ -122,7 +122,7 @@
           font-family="Arial, Helvetica, sans-serif"
           font-size="12"
           text-anchor="end">
-      73.1%
+      72.1%
     </text>
     
     <text x="48" y="203"
@@ -141,7 +141,7 @@
 
     <rect x="125"
           y="192"
-          width="74.5"
+          width="76.0"
           height="8"
           rx="4"
           fill="#58A6FF"/>
@@ -152,7 +152,7 @@
           font-family="Arial, Helvetica, sans-serif"
           font-size="12"
           text-anchor="end">
-      25.3%
+      25.8%
     </text>
     
     <text x="48" y="223"
@@ -171,7 +171,7 @@
 
     <rect x="125"
           y="212"
-          width="2.3"
+          width="2.7"
           height="8"
           rx="4"
           fill="#58A6FF"/>
@@ -182,14 +182,14 @@
           font-family="Arial, Helvetica, sans-serif"
           font-size="12"
           text-anchor="end">
-      0.8%
+      0.9%
     </text>
     
     <text x="48" y="243"
           fill="#C9D1D9"
           font-family="Arial, Helvetica, sans-serif"
           font-size="13">
-      CSS
+      TypeScript
     </text>
 
     <rect x="125"
@@ -219,7 +219,7 @@
           fill="#C9D1D9"
           font-family="Arial, Helvetica, sans-serif"
           font-size="13">
-      TypeScript
+      CSS
     </text>
 
     <rect x="125"
@@ -231,7 +231,7 @@
 
     <rect x="125"
           y="252"
-          width="0.6"
+          width="1.7"
           height="8"
           rx="4"
           fill="#58A6FF"/>
@@ -242,7 +242,7 @@
           font-family="Arial, Helvetica, sans-serif"
           font-size="12"
           text-anchor="end">
-      0.2%
+      0.6%
     </text>
     
 
